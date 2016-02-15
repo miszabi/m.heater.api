@@ -1,0 +1,15 @@
+{
+  "name": "m.dev.api",
+  "description": "rest api",
+  "version": "0.0.1",
+  "main": "server.js",
+  "dependencies": {
+    "body-parser": "~1.9.2",
+    "express": "~4.9.8",
+    "jsonwebtoken": "*",
+    "mongoose": "~3.8.0",
+    "morgan": "~1.5.0",
+    "mysql": "*",
+    "pi-gpio": "0.0.8"
+  }
+}
