@@ -1,0 +1,17 @@
+{
+  "day" : {
+    "minTemperature": "22",
+    "maxTemperature" : "24",
+    "timeRanges" : [
+      {"fromTime" : "06:30", "toTime" : "07:30"},
+      {"fromTime" : "10:30", "toTime" : "23:00"}
+    ]
+  },
+ "evening" : {
+    "minTemperature": "21",
+    "maxTemperature" : "22",
+    "timeRanges" : [
+      {"fromTime" : "23:30", "toTime" : "06:30"}
+    ]
+  }
+}
