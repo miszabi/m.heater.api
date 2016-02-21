@@ -87,7 +87,7 @@ module.exports = function(app){
 
     apiRoutes.post('/authenticate', function(req, res) {
         ///TODO from database
-        if(req.body.user == 'miszabi' && req.body.password == 'miszabi'){
+        if(req.body.user == 'x' && req.body.password == 'x'){
             var token = jwt.sign({userName:req.body.name, password : req.body.password }, app.get('superSecret'), {
                 expiresInMinutes: 1440 // expires in 24 hours
             });
