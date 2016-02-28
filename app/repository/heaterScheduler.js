@@ -24,7 +24,7 @@ var methods = {
                             console.log(data);
                             if(data.data == 0){
                                 heaterManager.startHeating(function(c){
-
+                                    thermoRepository.logOperation(1);
                                 });
                             }
                         });
@@ -33,7 +33,7 @@ var methods = {
                         heaterManager.isHeaterRunning(function(data){
                             if(data.data == 1){
                                 heaterManager.stopHeating(function(c){
-
+                                    thermoRepository.logOperation(0);
                                 });
                             }
                         });

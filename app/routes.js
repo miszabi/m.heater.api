@@ -155,6 +155,7 @@ module.exports = function(app){
     apiRoutes.get('/heaterOn', function(req, res) {
         heaterManager.startHeating(function(result){
             if(result){
+                thermoRepository.logOperation(1);
                 res.json({success : constants.responseState.SUCCESS });
                 return;
             }
@@ -167,6 +168,7 @@ module.exports = function(app){
     apiRoutes.get('/heaterOff', function(req, res) {
         heaterManager.stopHeating(function(result){
             if(result){
+                thermoRepository.logOperation(0);
                 res.json({success : constants.responseState.SUCCESS });
                 return;
             }

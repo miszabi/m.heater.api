@@ -12,6 +12,30 @@ var pool = mysql.createPool({
     port:    3306
 });
 
+function logOperation(operation){
+    pool.getConnection(function(err, connection){
+        if (err) {
+            connection.release();
+            //log
+        }
+        var what = {Operation : operation, CreationDate: new Date()};
+        connection.query("INSERT INTO `HeaterLog` SET ? ", what, function(err,rows){
+            connection.release();
+            if(!err) {
+                console.log('succes insert')
+            }
+            else {
+                console.log(err);
+            }
+        });
+
+        connection.on('error', function(err) {
+            console.log(error);
+            return;
+        });
+    });
+}
+
 function getLastMeasurement(callback){
 
     pool.getConnection(function(err, connection){
@@ -81,5 +105,6 @@ function getAvgMeasurement(){
 module.exports = {
     getLastMeasurement : getLastMeasurement,
     getMaxMeasurement : getMaxMeasurement,
-    getAvgMeasurement : getAvgMeasurement
+    getAvgMeasurement : getAvgMeasurement,
+    logOperation : logOperation
 };
