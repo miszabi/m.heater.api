@@ -29,7 +29,7 @@ function getLastMeasurement(callback){
         });
 
         connection.on('error', function(err) {
-            callback(false,err)
+            callback(false,err);
             return;
         });
     });
@@ -42,13 +42,15 @@ function getMaxMeasurement(date, callback){
             //log
             callback(false,err);
         }
-        var _fromDate = new Date(date),
-             _toDate = new Date(date);
-             where = [ _fromDate.setHours(0,0,0,0), _toDate.setHours(23,59,59,999)];
-        
+        var _fromDate = new Date(date);
+        _fromDate.setHours(0,0,0,0);
+        var _toDate = new Date(date);
+        _toDate.setHours(23,59,59,999);
+        var where = [_fromDate,_toDate];
         connection.query("SELECT HOUR( CreationDate ) AS Hour, MAX( Value ) as maximumValue, MIN( Value ) as minimumValue, AVG( Value ) as averageValue FROM  `Measurements` WHERE CreationDate BETWEEN ? AND ? GROUP BY HOUR( CreationDate ) order by CreationDate asc", where, function(err,rows){
             connection.release();
             if(!err) {
+                coonsole.log(rows);
                 callback(rows, err);
             }
             else {
@@ -62,6 +64,7 @@ function getMaxMeasurement(date, callback){
             return;
         });
     });
+
 }
 
 function getAvgMeasurement(){

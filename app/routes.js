@@ -41,7 +41,7 @@ var express     = require('express'),
     }
 };*/
 
-/*TODO testit*/
+/*TODO testit
  setInterval(function(){
      var currentHour = new Date().getHours();
      if(currentHour >= 5.30 && currentHour <= 6.30){
@@ -58,6 +58,7 @@ var express     = require('express'),
         });
      }
  }, 60 * 1000);
+ */
 
 
 module.exports = function(app){
