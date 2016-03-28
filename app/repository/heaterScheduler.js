@@ -1,10 +1,11 @@
 /**
  * Created by Miskolczy on 2/28/2016.
  */
-var progWorkDay = require('../config/progWorkdays.json'),
+
+var progWorkDay1 = require('../config/progWorkdays.json'),
     heaterManager = require('./heaterManager'),
     thermoRepository = require('./thermoRepository'),
-    heaterStartDateTime = undefined;
+    fs = require('fs');
 
 var methods = {
     init : function(){
@@ -15,26 +16,29 @@ var methods = {
                 if(err){
                     console.log(err);
                 } else {
-                    if(methods.isDayLight(currentDateTime) && result.Value <= progWorkDay.day.minTemperature && methods.isHeatingTime(currentDateTime)){
-                        heaterManager.isHeaterRunning(function(data){
-                            if(data.data == 0){
-                                heaterManager.startHeating(function(c){
-                                    heaterStartDateTime = new Date();
-                                    thermoRepository.logOperation(1);
-                                });
-                            }
-                        });
-                    }
-                    else {
-                        heaterManager.isHeaterRunning(function(data){
-                            if(data.data == 1){
+
+                    var progWorkDay = JSON.parse(fs.readFileSync('../config/progWorkdays.json').toString())[methods.getDay(currentDateTime)];
+
+                    heaterManager.isHeaterRunning(function(data){
+                        var currentTimeRange = methods.getHeatingTime(currentDateTime, progWorkDay);
+
+                        if(data.data == 1){
+                            if(currentTimeRange == undefined || result.Value >= currentTimeRange.maxTemperature){
                                 heaterManager.stopHeating(function(c){
-                                    methods.getRunningMinutes();
                                     thermoRepository.logOperation(0);
                                 });
                             }
-                        });
-                    }
+                        } else {
+
+                            if(result.Value <= currentTimeRange.minTemperature){
+                                heaterManager.startHeating(function(c){
+                                    thermoRepository.logOperation(1);
+                                });
+                            } else {
+
+                            }
+                        }
+                    });
                 }
             }
 
@@ -42,16 +46,17 @@ var methods = {
 
         }, 60 * 1000);
     },
-    getRunningMinutes : function(){
-        if(heaterStartDateTime !== undefined){
-            var currentTime = new Date();
-            return runningMinutes = Math.abs(currentTime - heaterStartDateTime) * 1000 * 60;
+    isDayLight: function(currentDateTime){
+        if(currentDateTime.getHours() >= 5 && currentDateTime.getHours() < 23){
+            console.log('isDayLight')
+            return true;
         }
-
-        return 0;
+        return false;
     },
-    getWeekday : function (){
-        var date = new Date();
+    getCurrentTemp : function(callback){
+        thermoRepository.getLastMeasurement(callback);
+    },
+    getDay : function (date){
         switch(date.getDay()){
             case 0:
                 return "sunday";
@@ -69,26 +74,16 @@ var methods = {
                 return "sunday";
         }
     },
-    isDayLight: function(currentDateTime){
-        //this method is falsy because we doesn't check the sunrise and sunsat :(
-        if(currentDateTime.getHours() >= 6 && currentDateTime.getHours() < 23){
-            return true;
-        }
-        return false;
-    },
-    getCurrentTemp : function(callback){
-        thermoRepository.getLastMeasurement(callback);
-    },
-    isHeatingTime :function (currentDateTime){
-        console.log('isHeatingTime')
+    ///return heater setting for the given hour or false
+    getHeatingTime : function (currentDateTime, progWorkDay){
         var day = {
                 timeRanges : []
             },
             fromTime = new Date(),
             toTime = new Date();
 
-        for(var i= 0, j = progWorkDay.day.timeRanges.length; i< j; i++ ){
-            var currentItem = progWorkDay.day.timeRanges[i],
+        for(var i= 0, j = progWorkDay.timeRanges.length; i< j; i++ ){
+            var currentItem = progWorkDay.timeRanges[i],
                 fromHourAndMinuteArray = currentItem.fromTime.split(':'),
                 toHourAndMinuteArray = currentItem.toTime.split(':');
 
@@ -96,14 +91,12 @@ var methods = {
             toTime.setHours(toHourAndMinuteArray[0],toHourAndMinuteArray[1],0);
             day.timeRanges.push({fromTime: fromTime , toTime : toTime});
 
-            console.log(fromTime);
-            console.log(toTime);
             if(currentDateTime > fromTime && currentDateTime < toTime){
-                return true;
+                return currentItem;
             }
         }
-        console.log('isnt heating time')
-        return false;
+
+        return undefined;
     }
 };
 

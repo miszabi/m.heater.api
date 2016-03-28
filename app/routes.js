@@ -8,61 +8,9 @@ var express     = require('express'),
     thermoRepository = require('./repository/thermoRepository'),
     heaterManager = require('./repository/heaterManager');
 
-/*var methods = {
-    isHeatTime : function(){
-        var currentDate = new Date();
-        return  currentDate.getHours() > 5 && currentDate.getHours() < 23;
-    },
-
-    getCurrentTemperature : function (callback){
-        thermoRepository.getLastMeasurement(function(result, err){
-            if(err){
-              //log
-                callback(30);
-            } else {
-                callback(result.Value);
-            }
-        });
-    },
-
-    heatIfCold : function(){
-        if(this.isHeatTime()){
-            var isHeaterRunning = false;
-            heaterManager.isHeaterRunning(function(result){
-                isHeaterRunning = result;
-            });
-
-            this.getCurrentTemperature(function(result){
-                if(result < 22){
-
-                }
-            });
-        }
-    }
-};*/
-
-/*TODO testit
- setInterval(function(){
-     var currentHour = new Date().getHours();
-     if(currentHour >= 5.30 && currentHour <= 6.30){
-        heaterManager.isHeaterRunning(function(data){
-        if(data.data == 0){
-            heaterManager.startHeating(function(c){});
-            }
-        });
-    } else {
-        heaterManager.isHeaterRunning(function(data){
-        if(data.data == 1){
-            heaterManager.stopHeating(function(c){ });
-            }
-        });
-     }
- }, 60 * 1000);
- */
-
-
 module.exports = function(app){
 
+    console.log(__dirname);
     var apiRoutes = express.Router();
 
     apiRoutes.use(function(req, res, next) {
