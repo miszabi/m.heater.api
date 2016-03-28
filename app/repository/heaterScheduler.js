@@ -3,27 +3,23 @@
  */
 var progWorkDay = require('../config/progWorkdays.json'),
     heaterManager = require('./heaterManager'),
-    thermoRepository = require('./thermoRepository');
+    thermoRepository = require('./thermoRepository'),
+    heaterStartDateTime = undefined;
 
 var methods = {
     init : function(){
         setInterval(function(){
             var currentDateTime = new Date();
-            console.log(currentDateTime);
 
             function getCurrentTempCallback(result, err){
                 if(err){
                     console.log(err);
                 } else {
-                    console.log('temperature check')
-                    console.log(result.Value <= progWorkDay.day.minTemperature);
-
                     if(methods.isDayLight(currentDateTime) && result.Value <= progWorkDay.day.minTemperature && methods.isHeatingTime(currentDateTime)){
                         heaterManager.isHeaterRunning(function(data){
-                            console.log('is heater isHeaterRunning before start heating');
-                            console.log(data);
                             if(data.data == 0){
                                 heaterManager.startHeating(function(c){
+                                    heaterStartDateTime = new Date();
                                     thermoRepository.logOperation(1);
                                 });
                             }
@@ -33,6 +29,7 @@ var methods = {
                         heaterManager.isHeaterRunning(function(data){
                             if(data.data == 1){
                                 heaterManager.stopHeating(function(c){
+                                    methods.getRunningMinutes();
                                     thermoRepository.logOperation(0);
                                 });
                             }
@@ -45,9 +42,36 @@ var methods = {
 
         }, 60 * 1000);
     },
+    getRunningMinutes : function(){
+        if(heaterStartDateTime !== undefined){
+            var currentTime = new Date();
+            return runningMinutes = Math.abs(currentTime - heaterStartDateTime) * 1000 * 60;
+        }
+
+        return 0;
+    },
+    getWeekday : function (){
+        var date = new Date();
+        switch(date.getDay()){
+            case 0:
+                return "sunday";
+            case 1:
+                return "monday";
+            case 2:
+                return "tuesday";
+            case 3:
+                return "wednesday";
+            case 4:
+                return "thursday";
+            case 5:
+                return "friday";
+            case 6:
+                return "sunday";
+        }
+    },
     isDayLight: function(currentDateTime){
+        //this method is falsy because we doesn't check the sunrise and sunsat :(
         if(currentDateTime.getHours() >= 6 && currentDateTime.getHours() < 23){
-            console.log('isDayLight')
             return true;
         }
         return false;

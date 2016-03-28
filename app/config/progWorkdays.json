@@ -1,17 +1,44 @@
 {
-  "day" : {
-    "minTemperature": "22",
-    "maxTemperature" : "24",
+  "monday" : {
     "timeRanges" : [
-      {"fromTime" : "06:30", "toTime" : "07:30"},
-      {"fromTime" : "14:30", "toTime" : "23:00"}
+      {"minTemperature" : "22", "maxTemperature" : "23.6", "fromTime" : "06:30", "toTime" : "07:30"},
+      {"minTemperature" : "22", "maxTemperature" : "23.6", "fromTime" : "10:30", "toTime" : "23:00"}
     ]
   },
-  "evening" : {
-    "minTemperature": "20.5",
-    "maxTemperature" : "22",
+  "tuesday" : {
     "timeRanges" : [
-      {"fromTime" : "23:30", "toTime" : "06:30"}
+      {"minTemperature" : "22", "maxTemperature" : "23.6", "fromTime" : "06:30", "toTime" : "07:30"},
+      {"minTemperature" : "22", "maxTemperature" : "23.6", "fromTime" : "10:30", "toTime" : "23:00"}
+    ]
+  },
+  "wednesday" : {
+    "timeRanges" : [
+      {"minTemperature" : "22", "maxTemperature" : "23.6", "fromTime" : "06:30", "toTime" : "07:30"},
+      {"minTemperature" : "22", "maxTemperature" : "23.6", "fromTime" : "10:30", "toTime" : "23:00"}
+    ]
+  },
+  "thursday" : {
+    "timeRanges" : [
+      {"minTemperature" : "22", "maxTemperature" : "23.6", "fromTime" : "06:30", "toTime" : "07:30"},
+      {"minTemperature" : "22", "maxTemperature" : "23.6", "fromTime" : "10:30", "toTime" : "23:00"}
+    ]
+  },
+  "friday" : {
+    "timeRanges" : [
+      {"minTemperature" : "22", "maxTemperature" : "23.6", "fromTime" : "06:30", "toTime" : "07:30"},
+      {"minTemperature" : "22", "maxTemperature" : "23.6", "fromTime" : "10:30", "toTime" : "23:00"}
+    ]
+  },
+  "saturday" : {
+    "timeRanges" : [
+      {"minTemperature" : "22", "maxTemperature" : "23.6", "fromTime" : "06:30", "toTime" : "07:30"},
+      {"minTemperature" : "22", "maxTemperature" : "23.6", "fromTime" : "10:30", "toTime" : "23:00"}
+    ]
+  },
+  "sunday" : {
+    "timeRanges" : [
+      {"minTemperature" : "22", "maxTemperature" : "23.6", "fromTime" : "06:30", "toTime" : "07:30"},
+      {"minTemperature" : "22", "maxTemperature" : "23.6", "fromTime" : "10:30", "toTime" : "23:00"}
     ]
   }
 }

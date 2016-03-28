@@ -25,7 +25,6 @@ function stopHeater(callback){
         gpio.write(constants.heater.PIN_NUMBER, 1, function(err) {          // Set pin constants.heater.PIN_NUMBER high (1)
             gpio.close(constants.heater.PIN_NUMBER);                     // Close pin constants.heater.PIN_NUMBER
             if(err){
-                console.log(err);
                 callback(0);
                 return;
             }
@@ -43,4 +42,4 @@ module.exports = {
     startHeating : startHeater,
     stopHeating : stopHeater,
     isHeaterRunning : isHeaterRunning
-}
+};

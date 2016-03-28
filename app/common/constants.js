@@ -15,5 +15,13 @@ module.exports = {
     },
     heater : {
         PIN_NUMBER : 26//gpio7
+    },
+    heaterOperationType : {
+        START : 1,
+        STOP : 0
+    },
+    gpioPinStatus : {
+        HIGH : 1,
+        LOW : 0
     }
 }
