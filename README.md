@@ -3,4 +3,4 @@
 Rest API with token authentication for managing home temperature.
 
 
-NODEJS, MYSQL
+NODEJS, MYSQL, MONGODB
