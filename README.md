@@ -1,7 +1,6 @@
 # m.heater.api
-Heater API
 
-TODO 
-relay 
-raspberry
-home temperature
+Rest API with token authentication for managing home temperature.
+
+
+NODEJS, MYSQL
